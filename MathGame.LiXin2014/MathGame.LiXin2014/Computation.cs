@@ -23,9 +23,12 @@ namespace MathGame.LiXin2014
             Operand2 = _random.Next(0, maxValue + 1);
             Operator = op;
 
-            if (op == Operators.Divide && Operand2 == 0)
+            if (op == Operators.Divide)
             {
-                Operand2 = _random.Next(1, maxValue + 1); // Ensure Operand2 is not zero for division
+                if (Operand2 == 0)
+                {
+                    Operand2 = _random.Next(1, maxValue + 1); // Ensure Operand2 is not zero for division
+                }
 
                 if (Operand1 % Operand2 != 0)
                 {
@@ -50,7 +53,7 @@ namespace MathGame.LiXin2014
 
         public override string ToString()
         {
-            return $"{Operand1} {Operator} {Operand2} = {UserInput} \t Correct Result is: {CorrectResult}";
+            return $"{Operand1} {Operator.GetSymbol()} {Operand2} = {UserInput} \t Correct Result is: {CorrectResult}";
         }
 
         private void Compute(Operators op)
