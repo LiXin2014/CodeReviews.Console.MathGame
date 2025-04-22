@@ -20,7 +20,7 @@ class Program
 
         Console.WriteLine($"What is {computation.Operand1} {computation.Operator} {computation.Operand2} = ?");
 
-        void waitForUserInputForResult()
+        while (true)
         {
             var result = Console.ReadLine();
             if (int.TryParse(result, out int userInput))
@@ -28,15 +28,10 @@ class Program
                 computation.UserInput = userInput;
                 computation.GameFeedbackToConsole();
                 GameHistory.AddRecord(computation);
+                break;
             }
-            else
-            {
-                Console.WriteLine("Invalid input. Please enter a number.");
-                waitForUserInputForResult();
-            }
-        };
-
-        waitForUserInputForResult();
+            Console.WriteLine("Invalid input. Please enter a number.");
+        }
     }
 
     private static Operators DisplayMenu()
