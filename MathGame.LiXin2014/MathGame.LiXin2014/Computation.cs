@@ -16,7 +16,10 @@ namespace MathGame.LiXin2014
         public Options Operator { get; set; }
         public int UserInput { get; set; }
 
-        // Generate random two operands
+        /// <summary>
+        /// Generate random two operands and compute the correct result
+        /// </summary>
+        /// <param name="op">The Options enum</param>
         public void GenerateOperands(Options op)
         {
             Operand1 = _random.Next(0, maxValue + 1);
@@ -39,6 +42,9 @@ namespace MathGame.LiXin2014
             this.Compute(op);
         }
 
+        /// <summary>
+        /// Display the result of the game to the console.
+        /// </summary>
         public void GameFeedbackToConsole()
         {
             if (UserInput == CorrectResult)
@@ -51,6 +57,11 @@ namespace MathGame.LiXin2014
             }
         }
 
+        /// <summary>
+        /// Override the ToString method to display the computation details.
+        /// For example: 1 + 2 = 3  Correct Result is: 3
+        /// </summary>
+        /// <returns>computation details</returns>
         public override string ToString()
         {
             return $"{Operand1} {Operator.GetSymbol()} {Operand2} = {UserInput} \t Correct Result is: {CorrectResult}";

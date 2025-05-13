@@ -2,7 +2,7 @@
 {
     static class GameHistory
     {
-        public static List<Computation> gameRecords { get; set; } = new List<Computation>();
+        private static List<Computation> gameRecords { get; set; } = new List<Computation>();
 
         public static void AddRecord(Computation record)
         {
