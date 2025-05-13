@@ -7,16 +7,29 @@ class Program
         Program program = new Program();
         while (true)
         {
-            PlayGame();
+            Options? selectedOption = DisplayMenu();
+            if (selectedOption is null)
+            {
+                return; // exit
+            }
+
+            if (selectedOption == Options.History)
+            {
+                GameHistory.DisplayHistory();
+            }
+            else
+            {
+                Options options = selectedOption.Value;
+                PlayGame(options);
+            }
             ContinueOrQuit();
         }
     }
 
-    private static void PlayGame()
+    private static void PlayGame(Options selectedOption)
     {
-        Operators op = DisplayMenu();
         Computation computation = new Computation();
-        computation.GenerateOperands((Operators)op);
+        computation.GenerateOperands(selectedOption);
 
         Console.WriteLine($"What is {computation.Operand1} {computation.Operator} {computation.Operand2} = ?");
 
@@ -34,7 +47,7 @@ class Program
         }
     }
 
-    private static Operators DisplayMenu()
+    private static Options? DisplayMenu()
     {
         Console.WriteLine("Choose from below options. Please enter the number of the chosen option");
         Console.WriteLine("1. +");
@@ -43,7 +56,7 @@ class Program
         Console.WriteLine("4. /");
         Console.WriteLine("5. View game history");
 
-        Operators? op = null;
+        Options? op = null;
         //bool tryAgain = true;
         while(op is null)
         {
@@ -52,24 +65,22 @@ class Program
             {
                 case "1":
                 case "+":
-                    op = Operators.Plus;
+                    op = Options.Plus;
                     break;
                 case "2":
                 case "-":
-                    op = Operators.Minus;
+                    op = Options.Minus;
                     break;
                 case "3":
                 case "*":
-                    op = Operators.Multiply;
+                    op = Options.Multiply;
                     break;
                 case "4":
                 case "/":
-                    op = Operators.Divide;
+                    op = Options.Divide;
                     break;
                 case "5":
-                    GameHistory.DisplayHistory();
-                    ContinueOrQuit();
-                    PlayGame();
+                    op = Options.History;
                     break;
                 default:
                     Console.WriteLine("Invalid option. Please try again.");
@@ -77,7 +88,7 @@ class Program
             }
         }
 
-        return (Operators)op;
+        return op;
     }
 
     private static void ContinueOrQuit()

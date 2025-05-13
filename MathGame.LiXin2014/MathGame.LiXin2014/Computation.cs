@@ -13,17 +13,17 @@ namespace MathGame.LiXin2014
         public int Operand1 { get; set; }
         public int Operand2 { get; set; }
         public int CorrectResult { get; set; }
-        public Operators Operator { get; set; }
+        public Options Operator { get; set; }
         public int UserInput { get; set; }
 
         // Generate random two operands
-        public void GenerateOperands(Operators op)
+        public void GenerateOperands(Options op)
         {
             Operand1 = _random.Next(0, maxValue + 1);
             Operand2 = _random.Next(0, maxValue + 1);
             Operator = op;
 
-            if (op == Operators.Divide)
+            if (op == Options.Divide)
             {
                 if (Operand2 == 0)
                 {
@@ -56,20 +56,20 @@ namespace MathGame.LiXin2014
             return $"{Operand1} {Operator.GetSymbol()} {Operand2} = {UserInput} \t Correct Result is: {CorrectResult}";
         }
 
-        private void Compute(Operators op)
+        private void Compute(Options op)
         {
             switch(op)
             {
-                case Operators.Plus:
+                case Options.Plus:
                     CorrectResult = Operand1 + Operand2;
                     break;
-                case Operators.Minus:
+                case Options.Minus:
                     CorrectResult = Operand1 - Operand2;
                     break;
-                case Operators.Multiply:
+                case Options.Multiply:
                     CorrectResult = Operand1 * Operand2;
                     break;
-                case Operators.Divide:
+                case Options.Divide:
                     if (Operand2 != 0)
                         CorrectResult = Operand1 / Operand2;
                     else
