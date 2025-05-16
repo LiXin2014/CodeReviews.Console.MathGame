@@ -11,6 +11,12 @@
 
         public static void DisplayHistory()
         {
+            if (gameRecords.Count == 0)
+            {
+                Console.WriteLine("No game history available.");
+                return;
+            }
+
             Console.WriteLine("Game History:");
             var index = 1;
             foreach (var record in gameRecords)
