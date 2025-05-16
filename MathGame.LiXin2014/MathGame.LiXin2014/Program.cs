@@ -5,34 +5,46 @@ class Program
     static void Main(string[] args)
     {
         Program program = new Program();
+        Difficulty difficulty = Difficulty.Easy;
         while (true)
         {
-            UserOptions? selectedOption = DisplayMenu();
+            GameOptions? selectedOption = DisplayGameMenu();
             if (selectedOption is null)
             {
                 return; // exit
             }
 
-            if (selectedOption == UserOptions.History)
+            if (selectedOption == GameOptions.History)
             {
                 GameHistory.DisplayHistory();
             }
-            else if (selectedOption == UserOptions.Exit)
+            else if (selectedOption == GameOptions.Exit)
             {
                 Environment.Exit(0);
+            }
+            else if (selectedOption == GameOptions.SetDifficultyLevel)
+            {
+                Console.Clear();
+                difficulty = ChooseGameDifficulty() ?? difficulty;
+                Console.Clear();
+                continue;
+            }
+            else if (selectedOption == GameOptions.ViewDifficultyLevel)
+            {
+                Console.WriteLine($"Current difficulty level is: {difficulty}");
             }
             else
             {
                 Operators op = (Operators)(int)selectedOption.Value;
-                PlayGame(op);
+                PlayGame(op, difficulty);
             }
             ContinueOrQuit();
         }
     }
 
-    private static void PlayGame(Operators op)
+    private static void PlayGame(Operators op, Difficulty difficulty)
     {
-        Computation computation = new Computation();
+        Computation computation = new Computation(difficulty);
         computation.GenerateOperands(op);
 
         Console.WriteLine($"What is {computation.Operand1} {computation.Operator} {computation.Operand2} = ?");
@@ -51,17 +63,51 @@ class Program
         }
     }
 
-    private static UserOptions? DisplayMenu()
+    private static Difficulty? ChooseGameDifficulty()
+    {
+        Console.WriteLine("Choose the difficulty level. Please enter the number of the chosen option");
+        Console.WriteLine("1. Easy");
+        Console.WriteLine("2. Medium");
+        Console.WriteLine("3. Hard");
+        Difficulty? difficulty = null;
+        while (difficulty is null)
+        {
+            var option = Console.ReadLine();
+            switch (option)
+            {
+                case "1":
+                case "Easy":
+                    difficulty = Difficulty.Easy;
+                    break;
+                case "2":
+                case "Medium":
+                    difficulty = Difficulty.Medium;
+                    break;
+                case "3":
+                case "Hard":
+                    difficulty = Difficulty.Hard;
+                    break;
+                default:
+                    Console.WriteLine("Invalid option. Please try again.");
+                    break;
+            }
+        }
+        return difficulty;
+    }
+
+    private static GameOptions? DisplayGameMenu()
     {
         Console.WriteLine("Choose from below options. Please enter the number of the chosen option");
         Console.WriteLine("1. +");
         Console.WriteLine("2. -");
         Console.WriteLine("3. *");
         Console.WriteLine("4. /");
-        Console.WriteLine("5. View game history");
-        Console.WriteLine("6. Exit");
+        Console.WriteLine("5. Set Difficulty Level");
+        Console.WriteLine("6. View Difficulty Level");
+        Console.WriteLine("7. View Game History");
+        Console.WriteLine("8. Exit");
 
-        UserOptions? op = null;
+        GameOptions? op = null;
         while(op is null)
         {
             var option = Console.ReadLine();
@@ -69,25 +115,31 @@ class Program
             {
                 case "1":
                 case "+":
-                    op = UserOptions.Plus;
+                    op = GameOptions.Plus;
                     break;
                 case "2":
                 case "-":
-                    op = UserOptions.Minus;
+                    op = GameOptions.Minus;
                     break;
                 case "3":
                 case "*":
-                    op = UserOptions.Multiply;
+                    op = GameOptions.Multiply;
                     break;
                 case "4":
                 case "/":
-                    op = UserOptions.Divide;
+                    op = GameOptions.Divide;
                     break;
                 case "5":
-                    op = UserOptions.History;
+                    op = GameOptions.SetDifficultyLevel;
                     break;
                 case "6":
-                    op = UserOptions.Exit;
+                    op = GameOptions.ViewDifficultyLevel;
+                    break;
+                case "7":
+                    op = GameOptions.History;
+                    break;
+                case "8":
+                    op = GameOptions.Exit;
                     break;
                 default:
                     Console.WriteLine("Invalid option. Please try again.");

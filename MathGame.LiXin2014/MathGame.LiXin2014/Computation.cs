@@ -9,12 +9,33 @@ namespace MathGame.LiXin2014
     class Computation
     {
         private Random _random = new Random();
-        private int maxValue = 100; // Default max value for operands
+        private int maxValue = 20; // max value for operands
         public int Operand1 { get; set; }
         public int Operand2 { get; set; }
         public int CorrectResult { get; set; }
         public Operators Operator { get; set; }
         public int UserInput { get; set; }
+        public Difficulty difficulty { get; set; }
+
+        public Computation(Difficulty difficulty)
+        {
+            this.difficulty = difficulty;
+            switch(difficulty)
+            {
+                case Difficulty.Easy:
+                    maxValue = 20;
+                    break;
+                case Difficulty.Medium:
+                    maxValue = 50;
+                    break;
+                case Difficulty.Hard:
+                    maxValue = 100;
+                    break;
+                default:
+                    maxValue = 20; // Default value
+                    break;
+            }
+        }
 
         /// <summary>
         /// Generate random two operands and compute the correct result
@@ -35,7 +56,7 @@ namespace MathGame.LiXin2014
 
                 if (Operand1 % Operand2 != 0)
                 {
-                    Operand1 = Operand2 * (_random.Next(1, maxValue / Operand2 + 1)); // Ensure Operand1 is divisible by Operand2
+                    Operand1 = Operand2 * (_random.Next(1, maxValue)); // Ensure Operand1 is divisible by Operand2
                 }
             }
 
