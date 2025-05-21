@@ -1,4 +1,5 @@
 ﻿using MathGame.LiXin2014;
+using System.Diagnostics;
 
 class Program
 {
@@ -48,13 +49,29 @@ class Program
         computation.GenerateOperands(op);
 
         Console.WriteLine($"What is {computation.Operand1} {computation.Operator} {computation.Operand2} = ?");
+        Stopwatch stopwatch = new Stopwatch();
+        stopwatch.Start();
 
         while (true)
         {
-            var result = Console.ReadLine();
+            Task<string?> userInputTask = Task.Run(() =>
+            {
+                var userInput = Console.ReadLine();
+                return userInput;
+            });
+
+            while (!userInputTask.IsCompleted)
+            {
+                Console.Write($"\rTime has elapsed {stopwatch.Elapsed.Seconds} seconds");
+                Thread.Sleep(500); // Update every half second
+            }
+
+            var result = userInputTask.Result;
             if (int.TryParse(result, out int userInput))
             {
                 computation.UserInput = userInput;
+                stopwatch.Stop();
+                computation.TimeTaken = stopwatch.Elapsed.Seconds;
                 computation.GameFeedbackToConsole();
                 GameHistory.AddRecord(computation);
                 break;

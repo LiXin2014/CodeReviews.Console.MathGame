@@ -1,7 +1,7 @@
 ﻿namespace MathGame.LiXin2014
 {
     // An enum to represent the different options in the game
-    public enum UserOptions
+    public enum GameOptions
     {
         Plus = 1,
         Minus = 2,

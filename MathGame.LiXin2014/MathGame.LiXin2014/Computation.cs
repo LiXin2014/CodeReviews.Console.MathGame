@@ -15,6 +15,7 @@ namespace MathGame.LiXin2014
         public int CorrectResult { get; set; }
         public Operators Operator { get; set; }
         public int UserInput { get; set; }
+        public long TimeTaken { get; set; } // Time taken to answer the question in seconds
         public Difficulty difficulty { get; set; }
 
         public Computation(Difficulty difficulty)
@@ -70,7 +71,7 @@ namespace MathGame.LiXin2014
         {
             if (UserInput == CorrectResult)
             {
-                Console.WriteLine("It's correct, congratulations!");
+                Console.WriteLine($"It's correct, congratulations! You have solved in {TimeTaken} seconds");
             }
             else
             {
